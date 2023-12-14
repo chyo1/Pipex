@@ -6,11 +6,21 @@
 /*   By: hyowchoi <hyowchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 17:08:07 by hyowchoi          #+#    #+#             */
-/*   Updated: 2023/12/13 20:27:46 by hyowchoi         ###   ########.fr       */
+/*   Updated: 2023/12/14 17:21:07 by hyowchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	fill_default_struct(t_defaults *def, int argc, char **argv, char **env)
+{
+	def->argc = argc;
+	def->argv = argv;
+	def->env = env;
+	def->env_list = div_env_path(env);
+	def->infile = argv[1];
+	def->outfile = argv[argc - 1];
+}
 
 char	**div_env_path(char **env)
 {
@@ -29,12 +39,7 @@ char	**div_env_path(char **env)
 			break ;
 		i++;
 	}
-	str = ft_split(env[i], ':');
-	// if (str == NULL)
-	// {
-	// 	perror("malloc error");
-	// 	exit(1);
-	// }
+	str = ft_split(env[i] + 5, ':');
 	return (str);
 }
 
@@ -56,13 +61,13 @@ char	*find_n_make_path(char **envp, char *cmd)
 		}
 		ft_strlcpy(str, envp[i], ft_strlen(envp[i]) + cmd_len + 2); // path/cmd
 		ft_strlcat(str, "/", ft_strlen(envp[i]) + cmd_len + 2);
-		ft_strlcat(envp[i], cmd, ft_strlen(envp[i]) + cmd_len + 2);
-		if (access((const char *)str, F_OK))
+		ft_strlcat(str, cmd, ft_strlen(envp[i]) + cmd_len + 2);
+		
+		if (access((const char *)str, F_OK) == 0)
 			return (str);
 		free(str); // have to free?
 		i++;
 	}
-	// cmd error
 	perror("Invalid cmd");
-		exit(1);
+	exit(1);
 }

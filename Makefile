@@ -1,10 +1,9 @@
 RM=			rm -f
-NAME=		push_swap
-BONUS_NAME=	checker
+NAME=		pipex
 CC=			cc
 CFLAGS=		-Wall -Wextra -Werror -g
 SRCS_MAN=	find_env_path.c ft_split.c ft_str_func.c\
-			pipex.c
+			main.c close_pipes_n_fd_fin_program.c do_child.c
 .PHONY : all clean fclean re
 
 all : $(NAME)

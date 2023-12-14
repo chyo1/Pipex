@@ -63,10 +63,7 @@ static int	fill_ans(char **ans, const char *str, char c)
 				idx++;
 			ans[ans_idx] = (char *)malloc(sizeof(char) * (idx - s + 1));
 			if (ans[ans_idx] == NULL)
-			{
-				perror("malloc error");
-				exit(1);
-			} // return (ans_idx);
+				print_error_n_exit(MALLOC_ERROR);
 			get_wrd(str, ans[ans_idx], s, idx);
 			ans_idx++;
 		}
@@ -86,20 +83,7 @@ char	**ft_split(char const *s, char c)
 	cnt_word = get_word_cnt(s, c);
 	ans = (char **)malloc(sizeof(char *) * (cnt_word + 1));
 	if (ans == NULL)
-	{
-		perror("malloc error");
-		exit(1);
-	}
+		print_error_n_exit(MALLOC_ERROR);
 	err_loc = fill_ans(ans, s, c);
-	// if (err_loc >= 0)
-	// {
-	// 	while (err_loc >= 0)
-	// 	{
-	// 		free(ans[err_loc]);
-	// 		err_loc--;
-	// 	}
-	// 	free(ans);
-	// 	return (NULL);
-	// }
 	return (ans);
 }
