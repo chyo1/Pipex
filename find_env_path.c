@@ -6,7 +6,7 @@
 /*   By: hyowchoi <hyowchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 17:08:07 by hyowchoi          #+#    #+#             */
-/*   Updated: 2023/12/14 17:21:07 by hyowchoi         ###   ########.fr       */
+/*   Updated: 2023/12/15 20:11:26 by hyowchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,13 @@ char	*find_n_make_path(char **envp, char *cmd)
 
 	i = 0;
 	cmd_len = ft_strlen(cmd);
+	if (access((const char *)cmd, F_OK) == 0)
+			return (cmd);
 	while (envp[i] != NULL)
 	{
 		str = (char *)malloc(ft_strlen(envp[i]) + cmd_len + 2);
 		if (str == NULL)
-		{
-			perror("malloc error");
-			exit(1);
-		}
+			print_error_n_exit(MALLOC_ERROR);
 		ft_strlcpy(str, envp[i], ft_strlen(envp[i]) + cmd_len + 2); // path/cmd
 		ft_strlcat(str, "/", ft_strlen(envp[i]) + cmd_len + 2);
 		ft_strlcat(str, cmd, ft_strlen(envp[i]) + cmd_len + 2);
@@ -68,6 +67,6 @@ char	*find_n_make_path(char **envp, char *cmd)
 		free(str); // have to free?
 		i++;
 	}
-	perror("Invalid cmd");
-	exit(1);
+	perror("command not found: No such file or directory");
+	exit(127);
 }

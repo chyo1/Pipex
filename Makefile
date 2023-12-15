@@ -8,7 +8,7 @@ SRCS_MAN=	find_env_path.c ft_split.c ft_str_func.c\
 
 all : $(NAME)
 
-bonus : $(BONUS_NAME)
+# bonus : $(BONUS_NAME)
 
 $(NAME) : $(SRCS_MAN)
 	$(CC) $(CFLAGS) $(SRCS_MAN) -o $(NAME)

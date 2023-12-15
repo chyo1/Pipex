@@ -6,7 +6,7 @@
 /*   By: hyowchoi <hyowchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 13:00:51 by hyowchoi          #+#    #+#             */
-/*   Updated: 2023/12/14 17:20:46 by hyowchoi         ###   ########.fr       */
+/*   Updated: 2023/12/15 20:45:37 by hyowchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@
 #  define BUFFER_SIZE 20000
 # endif
 
-#include <unistd.h> // pipe
-#include <stdlib.h> // exit
-#include <stdio.h> // perror, strerror
-#include <fcntl.h> // open, close
-
+# include <unistd.h> // pipe
+# include <stdlib.h> // exit
+# include <stdio.h> // perror, strerror
+# include <fcntl.h> // open, close
+# include <sys/wait.h> // wait, waitpid
+# include <errno.h> // strerror
+# include <string.h> //?
 typedef struct s_defaults
 {
 	char	**env;
@@ -41,6 +43,9 @@ typedef struct s_defaults
 #define MALLOC_ERROR 5
 #define INVALID_CMD 6
 #define EXECUVE_ERROR 7
+
+#define TRUE 1
+#define FALSE 0
 
 // main.c
 int	main(int argc, char **argv, char **env);

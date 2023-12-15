@@ -6,7 +6,7 @@
 /*   By: hyowchoi <hyowchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 15:45:56 by hyowchoi          #+#    #+#             */
-/*   Updated: 2023/12/14 17:12:37 by hyowchoi         ###   ########.fr       */
+/*   Updated: 2023/12/15 20:47:09 by hyowchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,30 @@ void	close_pipes(int pipes[], int cnt_pipe, int fd)
 
 void	print_error_n_exit(int which)
 {
+	char *error_msg;
+
+	error_msg = NULL;
+	// char	*buff = "pipex: input: No such file or directory\n";
 	if (which == ARGUMENT_ERROR)
-		perror("Argument Error");
+	{
+		perror("pipex: input:");
+		error_msg = strerror(ENOENT);
+	}	
+		// *buff = "input: No such file or directory";
 	else if (which == PIPE_CREATE_ERROR)
-		perror("Pipe creation failed");
+		;// perror("Pipe creation failed");
 	else if (which == FORK_ERROR)
-		perror("Fork failure");
+		;// perror("Fork failure");
 	else if (which == FILE_ACCESS_ERROR)
-		perror("File access permission error");
+		;// perror("File access permission Error");
 	else if (which == OPEN_ERROR)
-		perror("Open error");
+		;//  perror("command not found: No such file or directory");
 	else if (which == MALLOC_ERROR)
-		perror("malloc error");
+		;// perror("malloc Error");
 	else if (which == INVALID_CMD)
-		perror("Invalid cmd");
+		;//perror("command not found: No such file or directory");
 	else if (which == EXECUVE_ERROR)
-		perror("Execve error");
+		;// perror("Execve Error");
+	perror(error_msg);
 	exit(1);
 }

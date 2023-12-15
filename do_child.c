@@ -6,7 +6,7 @@
 /*   By: hyowchoi <hyowchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 16:00:12 by hyowchoi          #+#    #+#             */
-/*   Updated: 2023/12/14 17:12:33 by hyowchoi         ###   ########.fr       */
+/*   Updated: 2023/12/15 15:02:49 by hyowchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ void	write_to_outfile(t_defaults def)
 	char	**cmd;
 
 	arg_cmd = def.argv[def.argc - 2];
-	outfile_fd = open(def.outfile, O_RDWR | O_CREAT | O_TRUNC, 0777);
+	outfile_fd = open(def.outfile, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	if (outfile_fd == -1)
+		print_error_n_exit(OPEN_ERROR);
 	dup2(def.pipes[0], 0);
 	dup2(outfile_fd, 1);
 	close_pipes(def.pipes, 2, outfile_fd);
