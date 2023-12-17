@@ -18,6 +18,7 @@ static unsigned int	get_word_cnt(const char *str, char c)
 	unsigned int	cnt_word;
 	unsigned int	idx;
 	unsigned int	cnt;
+	char			check_char;
 
 	cnt_word = 0;
 	idx = 0;
@@ -35,19 +36,19 @@ static unsigned int	get_word_cnt(const char *str, char c)
 			// printf("check_quotes\n");
 			cnt_word++;
 			cnt = 0;
-			while (str[idx] && (str[idx] == '"' || str[idx] == 39 || str[idx] == '"'))
+			if (str[idx] && (str[idx] == 39 || str[idx] == '"'))
 			{
+				check_char = str[idx];
 				idx++;
-				cnt++;
 			}
 			// printf("cnt : %d\n", cnt);
-			while (str[idx] != '"' && str[idx] != 39 && str[idx] != '"')
-				idx++;
-			while (cnt >= 0 && str[idx] && (str[idx] == '"' || str[idx] == 39 || str[idx] == '"'))
+			while (str[idx] && str[idx] != check_char)
 			{
+				if (str[idx] == '\\')
+					idx++;
 				idx++;
-				cnt--;
 			}
+			idx++;
 			// printf("cnt : %d, str[idx] : %d\n", cnt, str[idx]);
 		}
 		else
@@ -85,6 +86,7 @@ static void	fill_ans(char **ans, const char *str, char c)
 	unsigned int	idx;
 	unsigned int	ans_idx;
 	unsigned int	cnt;
+	char			check_char;
 
 	idx = 0;
 	ans_idx = 0;
@@ -100,25 +102,26 @@ static void	fill_ans(char **ans, const char *str, char c)
 		else if (str[idx] == '"' || str[idx] == 39)
 		{
 			cnt = 0;
-			while (str[idx] && (str[idx] == '"' || str[idx] == 39 || str[idx] == '"'))
+			if (str[idx] && (str[idx] == 39 || str[idx] == '"'))
 			{
+				check_char = str[idx];
 				idx++;
-				cnt++;
 			}
 			s = idx;
-			while (str[idx] != '"' && str[idx] != 39 && str[idx] != '"')
-				idx++;
-			put_ans_idx(ans, &str[s], idx - s + 1, &ans_idx);
-			while (cnt >= 0 && str[idx] && (str[idx] == '"' || str[idx] == 39 || str[idx] == '"'))
+			while (str[idx] && str[idx] != check_char)
 			{
+				if (str[idx] == '\\')
+					idx++;
 				idx++;
-				cnt--;
 			}
+			put_ans_idx(ans, &str[s], idx - s + 1, &ans_idx);
+			idx++;
 		}
 		else
 			idx++;
 	}
 }
+
 
 char	**ft_split(char const *s, char c)
 {
@@ -134,13 +137,19 @@ char	**ft_split(char const *s, char c)
 	return (ans);
 }
 
-// int main()
-// {
-// 	char **c;
-// 	char *a = "grep a";
-// 	c = ft_split(a, ' ');
-	// printf("grep a : %s %s\n", c[0], c[1]);
-// 	a = "awk \'\"{count++} END {print count}\"\'";
-// 	c = ft_split(a, ' ');
-	// printf("awk '{count++} END {print count}' : %s - %s\n", c[0], c[1]);
-// }
+
+char	*ft_strchr(const char *s, int c)
+{
+	char	cmp;
+
+	cmp = (char)c;
+	while (*s)
+	{
+		if (cmp == *s)
+			return ((char *)s);
+			s++;
+	}
+	if (cmp == 0)
+		return ((char *)s);
+	return (NULL);
+}

@@ -6,7 +6,7 @@
 /*   By: hyowchoi <hyowchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 13:00:51 by hyowchoi          #+#    #+#             */
-/*   Updated: 2023/12/15 20:45:37 by hyowchoi         ###   ########.fr       */
+/*   Updated: 2023/12/17 13:50:30 by hyowchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	main(int argc, char **argv, char **env);
 
 // ft_split.c
 char	**ft_split(char const *s, char c);
+char	*ft_strchr(const char *s, int c);
 
 // ft_strdup.c
 size_t	ft_strlen(const char *s);

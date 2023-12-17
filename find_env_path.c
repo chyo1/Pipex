@@ -6,7 +6,7 @@
 /*   By: hyowchoi <hyowchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 17:08:07 by hyowchoi          #+#    #+#             */
-/*   Updated: 2023/12/15 20:11:26 by hyowchoi         ###   ########.fr       */
+/*   Updated: 2023/12/17 19:16:32 by hyowchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ char	**div_env_path(char **env)
 	unsigned int	i;
 	unsigned int	j;
 	char			**str;
+	char			*tmp;
 
 	i = 0;
 	while (env[i] != NULL)
@@ -39,7 +40,11 @@ char	**div_env_path(char **env)
 			break ;
 		i++;
 	}
-	str = ft_split(env[i] + 5, ':');
+	if (env[i] == NULL)
+		tmp = "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:.";
+	else
+		tmp = env[i] + 5;
+	str = ft_split(tmp, ':');
 	return (str);
 }
 
@@ -51,8 +56,10 @@ char	*find_n_make_path(char **envp, char *cmd)
 
 	i = 0;
 	cmd_len = ft_strlen(cmd);
-	if (access((const char *)cmd, F_OK) == 0)
+	if (ft_strchr(&cmd[0], '/') != 0 && access((const char *)cmd, F_OK) == 0)
 			return (cmd);
+	if (ft_strchr(&cmd[0], '/') != 0) //
+		exit(127);//
 	while (envp[i] != NULL)
 	{
 		str = (char *)malloc(ft_strlen(envp[i]) + cmd_len + 2);
@@ -67,6 +74,8 @@ char	*find_n_make_path(char **envp, char *cmd)
 		free(str); // have to free?
 		i++;
 	}
-	perror("command not found: No such file or directory");
+	write(2, "pipex: ", 7);
+	write(2, cmd, ft_strlen(cmd));
+	write(2, ": command not found\n", 20);
 	exit(127);
 }
