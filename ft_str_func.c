@@ -6,23 +6,23 @@
 /*   By: hyowchoi <hyowchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 14:45:31 by hyowchoi          #+#    #+#             */
-/*   Updated: 2023/12/18 20:03:52 by hyowchoi         ###   ########.fr       */
+/*   Updated: 2023/12/20 17:15:42 by hyowchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	*ft_strdup(char *s1)
+size_t	ft_strlen(const char *s)
 {
-	char	*a;
-	size_t	len;
+	size_t	n;
 
-	len = ft_strlen(s1);
-	a = (char *)malloc(sizeof(char) * (len + 1));
-	if (a == NULL)
-		return (NULL);
-	ft_strlcpy(a, s1, len + 1);
-	return (a);
+	n = 0;
+	while (*s)
+	{
+		n++;
+		s++;
+	}
+	return (n);
 }
 
 size_t	ft_strlcpy(char *dst, char *src, size_t detsize)
@@ -67,19 +67,6 @@ size_t	ft_strlcat(char *dst, char *src, size_t size)
 		dst[len_d + i] = '\0';
 	}
 	return (len_d + len_s);
-}
-
-size_t	ft_strlen(const char *s)
-{
-	size_t	n;
-
-	n = 0;
-	while (*s)
-	{
-		n++;
-		s++;
-	}
-	return (n);
 }
 
 char	*ft_strchr(const char *s, int c)

@@ -6,38 +6,38 @@
 /*   By: hyowchoi <hyowchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 16:00:12 by hyowchoi          #+#    #+#             */
-/*   Updated: 2023/12/20 14:10:26 by hyowchoi         ###   ########.fr       */
+/*   Updated: 2023/12/20 17:21:00 by hyowchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	remove_backslash(char **cmd)
+int	do_child(t_defaults def, char *infile, int fir_cmd_loc)
 {
-	char	*tmp;
-	char	*buf;
-	int		idx;
-	int		idx_buf;
+	pid_t	child_pid;
+	int		i;
 
-	tmp = *cmd;
-	idx_buf = 0;
-	idx = 0;
-	while (*tmp != 0)
-		if (*tmp++ == '\\')
-			idx++;
-	buf = (char *)malloc(ft_strlen(*cmd) - idx + 1);
-	tmp = *cmd;
-	idx = 0;
-	while (*(tmp + idx) != 0)
+	i = 1;
+	while (++i < def.argc - 1)
 	{
-		if (*(tmp + idx) == '\\')
-			idx++;
-		else
-			buf[idx_buf++] = tmp[idx++];
+		child_pid = fork();
+		if (child_pid == -1)
+			print_error_n_exit(FORK_ERROR);
+		if (child_pid == 0)
+		{
+			if (i == 2)
+			{
+				if (ft_strcmp(def.argv[1], "here_doc") == 0)
+					here_doc(def, def.argv[i++]);
+				read_infile(def, infile, def.pipes, fir_cmd_loc);
+			}
+			else if (i == def.argc - 2)
+				write_to_outfile(def, def.argv[def.argc - 1], def.pipes);
+			else
+				read_n_write_pipes(def, def.argv[i], def.pipes, (i - 2) * 2);
+		}
 	}
-	buf[idx_buf] = 0;
-	free(*cmd);
-	*cmd = buf;
+	return (child_pid);
 }
 
 void	read_infile(t_defaults def, char *infile, int *pipes, int fir_cmd_loc)
@@ -61,7 +61,7 @@ void	read_infile(t_defaults def, char *infile, int *pipes, int fir_cmd_loc)
 	i = -1;
 	while (cmd[++i] != NULL)
 		remove_backslash(&cmd[i]);
-	path = find_n_make_path(def.env_list, cmd[0]);
+	path = find_n_make_path(def.env_list, cmd[0], ft_strlen(cmd[0]));
 	execve(path, cmd, def.env);
 	print_error_n_exit(EXECUVE_ERROR);
 	if (access(cmd[0], X_OK) != 0)
@@ -74,7 +74,7 @@ void	here_doc(t_defaults def, char *limiter)
 	char	*arg_cmd;
 	int		tmpfile_fd;
 	char	*tmp;
-	char 	*lim;
+	char	*lim;
 
 	arg_cmd = def.argv[2];
 	tmpfile_fd = open("tmp_file", O_RDWR | O_CREAT | O_APPEND, 0644);
@@ -83,15 +83,15 @@ void	here_doc(t_defaults def, char *limiter)
 	lim = malloc(ft_strlen(limiter) + 3);
 	ft_strlcpy(lim, limiter, ft_strlen(limiter) + 1);
 	lim[ft_strlen(limiter)] = '\n';
-	lim[ft_strlen(limiter) + 1] = '\0'; 
+	lim[ft_strlen(limiter) + 1] = '\0';
 	while (1)
 	{
 		tmp = get_next_line(0);
 		if (strcmp(tmp, lim) == 0)
-			break;
+			break ;
 		write(tmpfile_fd, tmp, ft_strlen(tmp));
 	}
-	free(tmp); //
+	free(tmp);
 }
 
 void	read_n_write_pipes(t_defaults def, char *cmd2, int *pipes, int idx)
@@ -107,7 +107,7 @@ void	read_n_write_pipes(t_defaults def, char *cmd2, int *pipes, int idx)
 	i = -1;
 	while (cmd[++i] != NULL)
 		remove_backslash(&cmd[i]);
-	path = find_n_make_path(def.env_list, cmd[0]);
+	path = find_n_make_path(def.env_list, cmd[0], ft_strlen(cmd[0]));
 	execve(path, cmd, def.env);
 	print_error_n_exit(EXECUVE_ERROR);
 	if (access(cmd[0], X_OK) != 0)
@@ -117,7 +117,7 @@ void	read_n_write_pipes(t_defaults def, char *cmd2, int *pipes, int idx)
 
 void	write_to_outfile(t_defaults def, char *outfile, int *pipes)
 {
-	int 	outfile_fd;
+	int		outfile_fd;
 	char	*arg_cmd;
 	char	*path;
 	char	**cmd;
@@ -134,7 +134,7 @@ void	write_to_outfile(t_defaults def, char *outfile, int *pipes)
 	i = -1;
 	while (cmd[++i] != NULL)
 		remove_backslash(&cmd[i]);
-	path = find_n_make_path(def.env_list, cmd[0]);
+	path = find_n_make_path(def.env_list, cmd[0], ft_strlen(cmd[0]));
 	execve(path, cmd, def.env);
 	print_error_n_exit(EXECUVE_ERROR);
 	if (access(cmd[0], X_OK) != 0)

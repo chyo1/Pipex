@@ -4,10 +4,10 @@ CC=			cc
 CFLAGS=		-Wall -Wextra -Werror -g
 SRCS_MAN=	find_env_path.c ft_split.c ft_str_func.c\
 			main.c close_pipes_n_fd_fin_program.c do_child.c\
-			_get_next_line.c _get_next_line_utils.c
+			_get_next_line.c _get_next_line_utils.c parsing.c
 SRCS_BONUS= find_env_path.c ft_split.c ft_str_func.c\
-			main.c close_pipes_n_fd_fin_program.c do_child.c\
-			_get_next_line.c _get_next_line_utils.c
+			bonus_main.c close_pipes_n_fd_fin_program.c do_child.c\
+			_get_next_line.c _get_next_line_utils.c parsing.c
 .PHONY : all bonus clean fclean re
 
 all : $(NAME)

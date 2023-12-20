@@ -1,36 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   close_pipes_n_fd_fin_program.c                     :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyowchoi <hyowchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/14 15:45:56 by hyowchoi          #+#    #+#             */
-/*   Updated: 2023/12/20 17:27:10 by hyowchoi         ###   ########.fr       */
+/*   Created: 2023/12/15 18:43:05 by hyowchoi          #+#    #+#             */
+/*   Updated: 2023/12/20 14:54:12 by hyowchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+// #include "pipex.h"
 
-void	close_pipes(int *pipes, int cnt_pipe, int fd)
-{
-	int	i;
+// int main(int argc, char **argv)
+// {
+// 	printf("%s\n\n", argv[1]);
+// 	char	**ans1 = ft_split(argv[1], ' ');
+// 	int		idx = 0;
 
-	i = 0;
-	while (i < cnt_pipe * 2)
-	{
-		close(pipes[i]);
-		i++;
-	}
-	if (fd != 0)
-		close(fd);
-}
-
-void	print_error_n_exit(int which)
-{
-	if (which == FILE_ACCESS_ERROR || which == OPEN_ERROR)
-		write(2, "pipex: input: No such file or directory\n", 40);
-	else if (which == EXECUVE_ERROR)
-		exit(126);
-	exit(1);
-}
+// 	(void)argc;
+	
+// 	while (ans1[idx] != NULL)
+// 	{
+// 		printf("ans[%d] = %s\n", idx, ans1[idx]);
+// 		idx++;
+// 	}
+// }
