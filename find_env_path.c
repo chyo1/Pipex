@@ -6,20 +6,25 @@
 /*   By: hyowchoi <hyowchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 17:08:07 by hyowchoi          #+#    #+#             */
-/*   Updated: 2023/12/17 19:16:32 by hyowchoi         ###   ########.fr       */
+/*   Updated: 2023/12/18 19:23:48 by hyowchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	fill_default_struct(t_defaults *def, int argc, char **argv, char **env)
+int	*make_struct_n_pipe(t_defaults *def, int argc, char **argv, char **env)
 {
+	int	*pipes;
+
 	def->argc = argc;
 	def->argv = argv;
 	def->env = env;
 	def->env_list = div_env_path(env);
-	def->infile = argv[1];
-	def->outfile = argv[argc - 1];
+	pipes = (int *)malloc(sizeof(int) * ((argc - 4) * 2));
+	if (pipes == NULL)
+		print_error_n_exit(MALLOC_ERROR);
+	def->cnt_pipes = argc - 4;
+	return (pipes);
 }
 
 char	**div_env_path(char **env)

@@ -6,23 +6,24 @@
 /*   By: hyowchoi <hyowchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 15:45:56 by hyowchoi          #+#    #+#             */
-/*   Updated: 2023/12/17 19:14:23 by hyowchoi         ###   ########.fr       */
+/*   Updated: 2023/12/18 17:11:43 by hyowchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	close_pipes(int pipes[], int cnt_pipe, int fd)
+void	close_pipes(int *pipes, int cnt_pipe, int fd)
 {
 	int	i;
 
 	i = 0;
-	while (i < cnt_pipe)
+	while (i < cnt_pipe * 2)
 	{
 		close(pipes[i]);
 		i++;
 	}
-	close(fd);
+	if (fd != 0)
+		close(fd);
 }
 
 void	print_error_n_exit(int which)
@@ -33,9 +34,7 @@ void	print_error_n_exit(int which)
 		;// perror("Pipe creation failed");
 	else if (which == FORK_ERROR)
 		;// perror("Fork failure");
-	else if (which == FILE_ACCESS_ERROR)
-		write(2, "pipex: input: No such file or directory\n", 40);
-	else if (which == OPEN_ERROR)
+	else if (which == FILE_ACCESS_ERROR || which == OPEN_ERROR)
 		write(2, "pipex: input: No such file or directory\n", 40);
 	else if (which == MALLOC_ERROR)
 		;// perror("malloc Error");

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_str_func.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyowchoi <hyowchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/06 11:40:29 by hyowchoi          #+#    #+#             */
-/*   Updated: 2023/10/13 15:59:44 by hyowchoi         ###   ########.fr       */
+/*   Created: 2023/12/18 14:45:31 by hyowchoi          #+#    #+#             */
+/*   Updated: 2023/12/18 20:03:52 by hyowchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,34 @@ size_t	ft_strlen(const char *s)
 		s++;
 	}
 	return (n);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	char	cmp;
+
+	cmp = (char)c;
+	while (*s)
+	{
+		if (cmp == *s)
+			return ((char *)s);
+			s++;
+	}
+	if (cmp == 0)
+		return ((char *)s);
+	return (NULL);
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (s1[i] != '\0' || s2[i] != '\0')
+	{
+		if ((unsigned char)s1[i] != (unsigned char)s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
+	}
+	return (0);
 }
