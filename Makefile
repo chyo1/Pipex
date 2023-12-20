@@ -2,18 +2,25 @@ RM=			rm -f
 NAME=		pipex
 CC=			cc
 CFLAGS=		-Wall -Wextra -Werror -g
-SRCS_MAN=	find_env_path.c ft_split.c ft_str_func.c\
-			main.c close_pipes_n_fd_fin_program.c do_child.c\
-			_get_next_line.c _get_next_line_utils.c parsing.c
-SRCS_BONUS= find_env_path.c ft_split.c ft_str_func.c\
-			bonus_main.c close_pipes_n_fd_fin_program.c do_child.c\
-			_get_next_line.c _get_next_line_utils.c parsing.c
+SRCS_MAN=	main.c\
+			find_env_path.c do_child.c\
+			ft_split.c ft_str_func.c parsing.c\
+			close_pipes_n_fd_fin_program.c\
+			_get_next_line.c _get_next_line_utils.c
+SRCS_BONUS= main_bonus.c\
+			find_env_path_bonus.c do_child_bonus.c\
+			ft_split.c ft_str_func.c parsing.c\
+			close_pipes_n_fd_fin_program.c\
+			_get_next_line.c _get_next_line_utils.c
 .PHONY : all bonus clean fclean re
 
 all : $(NAME)
 
-$(NAME) : $(SRCS_MAN)
+$(NAME) : LAST_ALL
+
+LAST_ALL : $(SRCS_MAN)
 	$(CC) $(CFLAGS) $(SRCS_MAN) -o $(NAME)
+	touch LAST_ALL
 
 bonus : LAST_BONUS
 
@@ -22,6 +29,7 @@ LAST_BONUS : $(SRCS_BONUS)
 	touch LAST_BONUS
 
 clean :
+	rm LAST_ALL
 	rm LAST_BONUS
 
 fclean :
