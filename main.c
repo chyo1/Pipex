@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bonus_main.c                                       :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyowchoi <hyowchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 12:28:07 by hyowchoi          #+#    #+#             */
-/*   Updated: 2023/12/20 17:50:08 by hyowchoi         ###   ########.fr       */
+/*   Updated: 2023/12/20 17:49:32 by hyowchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,13 @@ int	main(int argc, char **argv, char **env)
 	int			value;
 	int			i;
 
-	if (argc < 5)
+	if (argc != 5)
 		print_error_n_exit(ARGUMENT_ERROR);
 	make_struct_n_pipe(&def, argc, argv, env);
-	if (ft_strcmp(def.argv[1], "here_doc") == 0)
-		last_child_pid = do_child(def, "tmp_file", 3);
-	else
-		last_child_pid = do_child(def, argv[1], 2);
-	close_pipes(def.pipes, def.cnt_pipes, 0);
+	last_child_pid = do_child(def, argv[1], 2);
+	close_pipes(def.pipes, 1, 0);
 	i = 0;
-	while (i < argc - 3)
+	while (i < 2)
 	{
 		if (wait(&status) == last_child_pid)
 			value = WEXITSTATUS(status);
