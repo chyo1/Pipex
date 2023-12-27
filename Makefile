@@ -11,7 +11,8 @@ SRCS_BONUS= main_bonus.c\
 			find_env_path_bonus.c do_child_bonus.c\
 			ft_split.c ft_str_func.c parsing.c\
 			close_pipes_n_fd_fin_program.c\
-			_get_next_line.c _get_next_line_utils.c
+			_get_next_line.c _get_next_line_utils.c\
+			make_file_name.c
 .PHONY : all bonus clean fclean re
 
 all : $(NAME)

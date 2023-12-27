@@ -6,13 +6,13 @@
 /*   By: hyowchoi <hyowchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 17:08:07 by hyowchoi          #+#    #+#             */
-/*   Updated: 2023/12/20 17:46:48 by hyowchoi         ###   ########.fr       */
+/*   Updated: 2023/12/26 16:00:44 by hyowchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	*make_struct_n_pipe(t_defaults *def, int argc, char **argv, char **env)
+void	make_struct_n_pipe(t_defaults *def, int argc, char **argv, char **env)
 {
 	int	*pipes;
 
@@ -27,7 +27,6 @@ int	*make_struct_n_pipe(t_defaults *def, int argc, char **argv, char **env)
 		print_error_n_exit(PIPE_CREATE_ERROR);
 	def->pipes = pipes;
 	def->cnt_pipes = 1;
-	return (pipes);
 }
 
 char	**div_env_path(char **env)

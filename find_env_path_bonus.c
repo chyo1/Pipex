@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   find_env_path.c                                    :+:      :+:    :+:   */
+/*   find_env_path_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyowchoi <hyowchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 17:08:07 by hyowchoi          #+#    #+#             */
-/*   Updated: 2023/12/20 17:30:51 by hyowchoi         ###   ########.fr       */
+/*   Updated: 2023/12/26 15:37:32 by hyowchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	*make_struct_n_pipe(t_defaults *def, int argc, char **argv, char **env)
+void	make_struct_n_pipe(t_defaults *def, int argc, char **argv, char **env)
 {
 	int	*pipes;
 	int	i;
@@ -21,7 +21,8 @@ int	*make_struct_n_pipe(t_defaults *def, int argc, char **argv, char **env)
 	def->argv = argv;
 	def->env = env;
 	def->env_list = div_env_path(env);
-	pipes = (int *)malloc(sizeof(int) * ((argc - 4) * 2));
+	def->cnt_pipes = argc - 4;
+	pipes = (int *)malloc(sizeof(int) * (def->cnt_pipes * 2));
 	if (pipes == NULL)
 		print_error_n_exit(MALLOC_ERROR);
 	i = 0;
@@ -32,8 +33,6 @@ int	*make_struct_n_pipe(t_defaults *def, int argc, char **argv, char **env)
 		i++;
 	}
 	def->pipes = pipes;
-	def->cnt_pipes = argc - 4;
-	return (pipes);
 }
 
 char	**div_env_path(char **env)

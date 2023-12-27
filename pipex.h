@@ -6,7 +6,7 @@
 /*   By: hyowchoi <hyowchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 13:00:51 by hyowchoi          #+#    #+#             */
-/*   Updated: 2023/12/20 17:24:36 by hyowchoi         ###   ########.fr       */
+/*   Updated: 2023/12/26 16:00:37 by hyowchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,10 @@
 #  define BUFFER_SIZE 20000
 # endif
 
-# include <unistd.h> // pipe
+# include <unistd.h> // pipe, unlink
 # include <stdlib.h> // exit
-# include <stdio.h> // perror, strerror
 # include <fcntl.h> // open, close
 # include <sys/wait.h> // wait, waitpid
-# include <errno.h> // strerror
-# include <string.h> //?
 
 typedef struct s_defaults
 {
@@ -77,7 +74,7 @@ char	*ft_strchr(const char *s, int c);
 int		ft_strcmp(char *s1, char *s2);
 
 // find_env_path.c
-int		*make_struct_n_pipe(t_defaults *def, int argc, char **argv, char **env);
+void	make_struct_n_pipe(t_defaults *def, int argc, char **argv, char **env);
 char	**div_env_path(char **env);
 char	*find_n_make_path(char **envp, char *cmd, size_t cmd_len);
 
@@ -88,7 +85,7 @@ void	print_error_n_exit(int which_error);
 // do_child.c
 int		do_child(t_defaults def, char *infile, int fir_cmd_loc);
 void	read_infile(t_defaults def, char *infile, int *pipes, int fir_cmd_loc);
-void	here_doc(t_defaults def, char *limiter);
+void	here_doc(char *infile, char *limiter);
 void	write_to_outfile(t_defaults def, char *outfile, int *pipes);
 void	read_n_write_pipes(t_defaults def, char *cmd2, int *pipes, int idx);
 
@@ -108,5 +105,8 @@ t_list	*find_or_make_lst(t_list **root, int fd);
 int		init_node(t_list *node, int fd);
 void	ft_lstadd_back(t_list **lst, t_list *new_node);
 char	*list_free_and_connect(t_list **lst, int fd);
+
+// make_file_name.c
+char	*make_file_name(char *name);
 
 #endif
