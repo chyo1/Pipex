@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   _get_next_line_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyowchoi <hyowchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 13:32:35 by hyowchoi          #+#    #+#             */
-/*   Updated: 2023/12/18 20:11:40 by hyowchoi         ###   ########.fr       */
+/*   Updated: 2023/12/27 12:38:18 by hyowchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ t_list	*find_or_make_lst(t_list **root, int fd)
 		node = node->next;
 	}
 	node = (t_list *)malloc(1 * sizeof(t_list));
-	if (!node)
-		return (0);
+	if (node == NULL)
+		print_error_n_exit(MALLOC_ERROR);
 	if (!init_node(node, fd))
 	{
 		free(node);
@@ -40,8 +40,8 @@ int	init_node(t_list *node, int fd)
 	char	*str1;
 
 	str1 = (char *)malloc(sizeof(char) * BUFFER_SIZE);
-	if (!str1)
-		return (0);
+	if (str1 == NULL)
+		print_error_n_exit(MALLOC_ERROR);
 	node->str = str1;
 	node->fd = fd;
 	node->len = 0;

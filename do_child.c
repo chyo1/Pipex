@@ -6,7 +6,7 @@
 /*   By: hyowchoi <hyowchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 16:00:12 by hyowchoi          #+#    #+#             */
-/*   Updated: 2023/12/26 12:41:09 by hyowchoi         ###   ########.fr       */
+/*   Updated: 2023/12/27 12:27:36 by hyowchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,17 @@ void	read_infile(t_defaults def, char *infile, int *pipes, int fir_cmd_loc)
 	infile_fd = open(infile, O_RDONLY);
 	if (infile_fd == -1)
 		print_error_n_exit(OPEN_ERROR);
+
 	dup2(infile_fd, 0);
 	dup2(pipes[1], 1);
 	close_pipes(pipes, def.cnt_pipes, infile_fd);
+
 	cmd = ft_split(arg_cmd, ' ');
 	i = -1;
 	while (cmd[++i] != NULL)
 		remove_backslash(&cmd[i]);
+
+	// find cmd path
 	path = find_n_make_path(def.env_list, cmd[0], ft_strlen(cmd[0]));
 	execve(path, cmd, def.env);
 	print_error_n_exit(EXECUVE_ERROR);
@@ -80,6 +84,8 @@ void	write_to_outfile(t_defaults def, char *outfile, int *pipes)
 	i = -1;
 	while (cmd[++i] != NULL)
 		remove_backslash(&cmd[i]);
+
+	// find cmd path
 	path = find_n_make_path(def.env_list, cmd[0], ft_strlen(cmd[0]));
 	execve(path, cmd, def.env);
 	print_error_n_exit(EXECUVE_ERROR);

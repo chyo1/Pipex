@@ -6,7 +6,7 @@
 /*   By: hyowchoi <hyowchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 13:32:19 by hyowchoi          #+#    #+#             */
-/*   Updated: 2023/12/20 14:58:48 by hyowchoi         ###   ########.fr       */
+/*   Updated: 2023/12/27 12:38:26 by hyowchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ int	cpy_buff(t_list *node, char *buff, ssize_t cnt)
 	{
 		node->size = 2 * (node->len + cnt);
 		tmp = (char *)malloc(sizeof(char) * node->size);
-		if (!tmp)
-			return (0);
+		if (tmp == NULL)
+			print_error_n_exit(MALLOC_ERROR);
 		while (idx < node->len)
 		{
 			tmp[idx] = node->str[idx];

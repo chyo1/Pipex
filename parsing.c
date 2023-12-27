@@ -6,7 +6,7 @@
 /*   By: hyowchoi <hyowchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 17:20:30 by hyowchoi          #+#    #+#             */
-/*   Updated: 2023/12/20 17:26:30 by hyowchoi         ###   ########.fr       */
+/*   Updated: 2023/12/27 12:39:03 by hyowchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	remove_backslash(char **cmd)
 		if (*tmp++ == '\\')
 			idx++;
 	buf = (char *)malloc(ft_strlen(*cmd) - idx + 1);
+	if (buf == NULL)
+		print_error_n_exit(MALLOC_ERROR);
 	tmp = *cmd;
 	idx = 0;
 	while (*(tmp + idx) != 0)

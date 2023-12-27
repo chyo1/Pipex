@@ -6,7 +6,7 @@
 /*   By: hyowchoi <hyowchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 12:28:07 by hyowchoi          #+#    #+#             */
-/*   Updated: 2023/12/26 16:03:49 by hyowchoi         ###   ########.fr       */
+/*   Updated: 2023/12/27 12:35:09 by hyowchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ int	main(int argc, char **argv, char **env)
 		print_error_n_exit(ARGUMENT_ERROR);
 	make_struct_n_pipe(&def, argc, argv, env);
 	last_child_pid = do_child(def, argv[1], 2);
+
 	close_pipes(def.pipes, def.cnt_pipes, 0);
+
+	// find last_child's return code
 	i = 0;
 	while (i < 2)
 	{

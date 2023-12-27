@@ -96,6 +96,8 @@ char	*make_file_name(char *name)
 		ft_strlcpy(file_name, name, ft_strlen(name) + 1);
 		ft_strlcat(file_name, num, ft_strlen(name) + ft_strlen(num) + 1);
 		free(num);
+
+		// if file_name + num doesn't exists -> return
 		if (access((const char *)file_name, F_OK) != 0)
 			return (file_name);
 		i++;
